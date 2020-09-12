@@ -1,12 +1,7 @@
 <?php
-require_once 'scripts/database_connection.php';
+require_once 'database_connection.php';
 
-
-//$login = 'Jess';
-//$password = password_hash('qwerty', PASSWORD_BCRYPT);
-//$label = '';
-//$query = sprintf("INSERT INTO users (login, password, label) VALUE ('%s','%s','%s')", $login, $password, $label);
-//$mysqli->query($query);
+session_start();
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -15,6 +10,8 @@ $result = $mysqli->query($query);
 if ($result->num_rows == 1) {
     $result = $result->fetch_array();
     if (password_verify($password, $result['password'])) {
-        var_dump($result);
+        $_SESSION['user_id'] = $result['user_id'];
+    }else{
+        $header_error='Неверный логин/пароль';
     }
 }
