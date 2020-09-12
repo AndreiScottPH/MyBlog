@@ -1,0 +1,9 @@
+Thumbs.db
+
+*.log
+
+/dist
+
+/node_modules
+
+/.idea
