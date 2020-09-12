@@ -1,5 +1,4 @@
 <?php
-
 require_once 'scripts/authorize.php';
 require_once 'scripts/view.php';
 ?>
@@ -129,9 +128,10 @@ header_view($header_error);
     <li class="page__item"><a href="#" class="page__link">1</a>,</li>
     <li class="page__item"><a href="#" class="page__link">2</a></li>
 </ul>
-<footer class="footer">
-    <div class="footer__content">Copiright 2020 Blog. All rights reserved.</div>
-</footer>
-<script src="main.js"></script>
+
+<?php
+include 'layouts/footer.php';
+?>
+
 </body>
 </html>
