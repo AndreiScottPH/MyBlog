@@ -14,4 +14,5 @@ function handle_error($user_error, $dev_error)
     $_SESSION['user_error'] = $user_error;
     $_SESSION['dev_error'] = $dev_error;
     header("Location:/error.php");
+    exit();
 }
