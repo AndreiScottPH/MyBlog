@@ -8,13 +8,12 @@ require_once 'scripts/database_connection.php';
 //$query = sprintf("INSERT INTO users (login, password, label) VALUE ('%s','%s','%s')", $login, $password, $label);
 //$mysqli->query($query);
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-$query = sprintf("SELECT user_id, password FROM users WHERE login = '%s'", $username);
+session_start();
+var_dump($_SESSION['user_id']);
+$query = sprintf("SELECT label FROM users WHERE user_id = '%s'", $_SESSION['user_id']);
 $result = $mysqli->query($query);
-if ($result->num_rows == 1) {
-    $result = $result->fetch_array();
-    if (password_verify($password, $result['password'])) {
-        var_dump($result);
-    }
+$result = $result->fetch_array();
+var_dump($result);
+if (isset($result['label']) && strlen($result['label'])>0) {
+    var_dump($result);
 }

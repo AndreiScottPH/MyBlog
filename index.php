@@ -1,5 +1,6 @@
 <?php
 require_once 'scripts/authorize.php';
+require_once 'scripts/autentification.php';
 require_once 'scripts/view.php';
 ?>
 

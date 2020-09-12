@@ -1,12 +1,19 @@
 <?php
-function header_view($header_error=NUll){
+function header_view($header_error = NUll)
+{
     session_start();
-    if(isset($_SESSION['user_id'])){
-        $nav='';
-        $user='disable';
-    }else{
-        $nav='disable';
-        $user='';
+    if ($_SESSION['admin']) {
+        $admin = <<<ADM
+<li class="nav-header__item nav-header__admin"><a href="/admin.html" class="nav-header__link">Администрирование</a></li>
+ADM;
+    }
+
+    if (isset($_SESSION['user_id'])) {
+        $nav = '';
+        $user = 'disable';
+    } else {
+        $nav = 'disable';
+        $user = '';
     }
     echo <<<HEADER
 <header class="header">
@@ -16,7 +23,7 @@ function header_view($header_error=NUll){
         <nav class="header__nav nav-header {$nav}">
             <ul class="nav-header__list">
                 <li class="nav-header__item nav-header__index"><a href="index.php" class="nav-header__link">На главную</a></li>
-                <li class="nav-header__item nav-header__admin"><a href="admin.html" class="nav-header__link">Администрирование</a></li>
+                {$admin}
                 <li class="nav-header__item nav-header__out"><a href="/scripts/logout.php" class="nav-header__link">Выход</a></li>
             </ul>
         </nav>
