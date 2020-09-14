@@ -1,9 +1,8 @@
 <?php
 require_once 'scripts/authorize.php';
-require_once 'scripts/autentification.php';
-require_once 'scripts/view.php';
+require_once 'scripts/authentication.php';
+require_once 'layouts/header.php';
 ?>
-
 
 <!doctype html>
 <html lang="ru">
@@ -24,7 +23,7 @@ header_view($header_error);
 <article class="index-article">
     <div class="_container">
         <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.html">The vannishing of Ethan Carter</a></h2>
+            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
                 <div class="index-article__date">24 июля 2020</div>
             </div>
             <div class="index-article__second-line">
@@ -44,13 +43,13 @@ header_view($header_error);
                         impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
                         reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
             </div>
-            <a href="article.html" class="index-article__link">Читать далее...</a></div>
+            <a href="article.php" class="index-article__link">Читать далее...</a></div>
     </div>
 </article>
 <article class="index-article">
     <div class="_container">
         <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.html">The vannishing of Ethan Carter</a></h2>
+            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
                 <div class="index-article__date">24 июля 2020</div>
             </div>
             <div class="index-article__second-line">
@@ -70,13 +69,13 @@ header_view($header_error);
                         impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
                         reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
             </div>
-            <a href="article.html" class="index-article__link">Читать далее...</a></div>
+            <a href="article.php" class="index-article__link">Читать далее...</a></div>
     </div>
 </article>
 <article class="index-article">
     <div class="_container">
         <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.html">The vannishing of Ethan Carter</a></h2>
+            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
                 <div class="index-article__date">24 июля 2020</div>
             </div>
             <div class="index-article__second-line">
@@ -96,13 +95,13 @@ header_view($header_error);
                         impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
                         reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
             </div>
-            <a href="article.html" class="index-article__link">Читать далее...</a></div>
+            <a href="article.php" class="index-article__link">Читать далее...</a></div>
     </div>
 </article>
 <article class="index-article">
     <div class="_container">
         <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.html">The vannishing of Ethan Carter</a></h2>
+            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
                 <div class="index-article__date">24 июля 2020</div>
             </div>
             <div class="index-article__second-line">
@@ -122,7 +121,7 @@ header_view($header_error);
                         impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
                         reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
             </div>
-            <a href="article.html" class="index-article__link">Читать далее...</a></div>
+            <a href="article.php" class="index-article__link">Читать далее...</a></div>
     </div>
 </article>
 <ul class="page _container">

@@ -4,7 +4,7 @@ function header_view($header_error = NUll)
     session_start();
     if ($_SESSION['admin']) {
         $admin = <<<ADM
-<li class="nav-header__item nav-header__admin"><a href="/admin.html" class="nav-header__link">Администрирование</a></li>
+<li class="nav-header__item nav-header__admin"><a href="/admin.php" class="nav-header__link">Администрирование</a></li>
 ADM;
     }
 
