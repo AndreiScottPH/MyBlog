@@ -5,9 +5,9 @@ require_once 'scripts/authentication.php';
 require_once 'layouts/header.php';
 session_start();
 
-$articles_query=sprintf("SELECT article_id, date, heading FROM articles");
-$articles=$mysqli->query($articles_query);
-$count=$articles->num_rows;
+$articles_query = sprintf("SELECT article_id, date, heading FROM articles");
+$articles = $mysqli->query($articles_query);
+$count = $articles->num_rows;
 ?>
 
 <!doctype html>
@@ -40,10 +40,11 @@ header_view();
         </thead>
         <tbody class="table-admin__body">
         <?php
-        $number=1;
+        $number = 1;
         while ($article = $articles->fetch_array()) {
-            $table_row = sprintf("<tr><td>%d</td><td>%s</td><td><a href='article.php?id=%s' class='table-admin__article-heading'>%s</a></td>" .
-            "<td><a href='#' class='table-admin__remove'>удалить</a></td></tr>",
+            $table_row = sprintf("<tr><td>%d</td><td>%s</td>" .
+                "<td><a href='article.php?article_id=%s' class='table-admin__article-heading'>%s</a></td>" .
+                "<td><a href='#' class='table-admin__remove'>удалить</a></td></tr>",
                 $number++, $article['date'], $article['article_id'], $article['heading']);
             echo $table_row;
         }
