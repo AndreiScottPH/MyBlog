@@ -39,7 +39,7 @@ while ($items = $article->fetch_array()) {
     ///обработка даты
     $items['date'] = date("d M Y", strtotime(trim($items['date'])));
     ///обработка контента новости
-    $items['content']=mb_substr($items['content'], 0, 700);
+    $items['content'] = mb_substr($items['content'], 0, 700);
     $items['content'] = preg_replace("/[\r\n]+/", "</p><p>", trim($items['content']));
     $items['content'] = preg_replace("/$/", "...", trim($items['content']));
     ///обработка вывода изображения
@@ -71,7 +71,15 @@ ARTICLE;
 if ($num_pages != 1) {
     echo "<ul class='page _container'>";
     for ($page = 1; $page <= $num_pages; $page++) {
-        echo "<li class='page__item'><a href='index.php?page={$page}' class='page__link'>{$page}</a></li>";
+        if (!isset($_GET['page'])) {
+            $_GET['page'] = $page;
+        }
+        if ($_GET['page'] == $page) {
+            $class = $page;
+        } else {
+            $class = "<a href='index.php?page={$page}' class='page__link'>{$page}</a>";
+        }
+        echo "<li class='page__item user-header__message'>{$class}</li>";
     }
     echo "</ul>";
 }
