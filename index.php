@@ -2,6 +2,20 @@
 require_once 'scripts/authorize.php';
 require_once 'scripts/authentication.php';
 require_once 'layouts/header.php';
+
+$num_articles = $mysqli->query("SELECT COUNT(*) FROM articles");
+$num_articles = $num_articles->fetch_row();
+$num_articles = $num_articles[0];
+
+$per_page = 3;
+$num_pages = ceil($num_articles / $per_page);
+
+if (isset($_GET['page']) && $_GET['page'] > 0) {
+    $num_page = ($_GET['page'] - 1) * $per_page;
+}
+
+$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles LIMIT %d, %d", $num_page, $per_page);
+$article = $mysqli->query($article_query);
 ?>
 
 <!doctype html>
@@ -20,114 +34,48 @@ require_once 'layouts/header.php';
 header_view($header_error);
 ?>
 
+<?php
+while ($items = $article->fetch_array()) {
+    ///обработка даты
+    $items['date'] = date("d M Y", strtotime(trim($items['date'])));
+    ///обработка контента новости
+    $items['content']=mb_substr($items['content'], 0, 700);
+    $items['content'] = preg_replace("/[\r\n]+/", "</p><p>", trim($items['content']));
+    $items['content'] = preg_replace("/$/", "...", trim($items['content']));
+    ///обработка вывода изображения
+    if (isset($items['art_image_id']) && $items['art_image_id'] != 0) {
+        $image_show = "<div class='index-article__image'><img src='/scripts/show_image.php?image_id={$items['art_image_id']}' alt='image'></div>";
+    } else {
+        unset($image_show);
+    }
+    $item = <<<ARTICLE
 <article class="index-article">
     <div class="_container">
         <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
-                <div class="index-article__date">24 июля 2020</div>
+            <div class="index-article__first-line"><h2><a href="article.php?article_id={$items['article_id']}">{$items['heading']}</a></h2>
+                <div class="index-article__date">{$items['date']}</div>
             </div>
             <div class="index-article__second-line">
-                <div class="index-article__image"><img src="img/article_img.jpg" alt="image"></div>
-                <div class="index-article__text"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore
-                    dolorem ea excepturi id illo in itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod
-                    sapiente similique veniam vitae! Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi,
-                    aperiam at commodi consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo
-                    numquam obcaecati officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero.
-                    Consequatur error impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos
-                    recusandae reprehenderit sequi, sit tempore tenetur veniam voluptas?</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore dolorem ea excepturi id illo in
-                        itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod sapiente similique veniam vitae!
-                        Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi, aperiam at commodi
-                        consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo numquam obcaecati
-                        officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero. Consequatur error
-                        impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
-                        reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
+                {$image_show}
+                <div class="index-article__text"><p>{$items['content']}</p></div>
             </div>
-            <a href="article.php" class="index-article__link">Читать далее...</a></div>
+            <a href="article.php?article_id={$items['article_id']}" class="index-article__link">Читать далее...</a></div>
     </div>
 </article>
-<article class="index-article">
-    <div class="_container">
-        <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
-                <div class="index-article__date">24 июля 2020</div>
-            </div>
-            <div class="index-article__second-line">
-                <div class="index-article__image"><img src="img/article_img.jpg" alt="image"></div>
-                <div class="index-article__text"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore
-                    dolorem ea excepturi id illo in itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod
-                    sapiente similique veniam vitae! Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi,
-                    aperiam at commodi consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo
-                    numquam obcaecati officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero.
-                    Consequatur error impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos
-                    recusandae reprehenderit sequi, sit tempore tenetur veniam voluptas?</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore dolorem ea excepturi id illo in
-                        itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod sapiente similique veniam vitae!
-                        Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi, aperiam at commodi
-                        consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo numquam obcaecati
-                        officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero. Consequatur error
-                        impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
-                        reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
-            </div>
-            <a href="article.php" class="index-article__link">Читать далее...</a></div>
-    </div>
-</article>
-<article class="index-article">
-    <div class="_container">
-        <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
-                <div class="index-article__date">24 июля 2020</div>
-            </div>
-            <div class="index-article__second-line">
-                <div class="index-article__image"><img src="img/article_img.jpg" alt="image"></div>
-                <div class="index-article__text"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore
-                    dolorem ea excepturi id illo in itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod
-                    sapiente similique veniam vitae! Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi,
-                    aperiam at commodi consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo
-                    numquam obcaecati officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero.
-                    Consequatur error impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos
-                    recusandae reprehenderit sequi, sit tempore tenetur veniam voluptas?</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore dolorem ea excepturi id illo in
-                        itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod sapiente similique veniam vitae!
-                        Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi, aperiam at commodi
-                        consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo numquam obcaecati
-                        officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero. Consequatur error
-                        impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
-                        reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
-            </div>
-            <a href="article.php" class="index-article__link">Читать далее...</a></div>
-    </div>
-</article>
-<article class="index-article">
-    <div class="_container">
-        <div class="index-article__content">
-            <div class="index-article__first-line"><h2><a href="article.php">The vannishing of Ethan Carter</a></h2>
-                <div class="index-article__date">24 июля 2020</div>
-            </div>
-            <div class="index-article__second-line">
-                <div class="index-article__image"><img src="img/article_img.jpg" alt="image"></div>
-                <div class="index-article__text"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore
-                    dolorem ea excepturi id illo in itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod
-                    sapiente similique veniam vitae! Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi,
-                    aperiam at commodi consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo
-                    numquam obcaecati officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero.
-                    Consequatur error impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos
-                    recusandae reprehenderit sequi, sit tempore tenetur veniam voluptas?</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias, aliquid dolore dolorem ea excepturi id illo in
-                        itaque iure labore magnam molestiae nobis odit, praesentium quae quas quasi quod sapiente similique veniam vitae!
-                        Adipisci architecto excepturi placeat possimus ratione saepe suscipit vitae! A animi, aperiam at commodi
-                        consequuntur culpa delectus dicta ea eius enim expedita ipsa ipsum minima molestiae mollitia nemo numquam obcaecati
-                        officiis, placeat, quaerat ratione rem reprehenderit repudiandae sequi similique tenetur vel vero. Consequatur error
-                        impedit libero maxime neque! Corporis, deserunt harum ipsum maiores molestias provident, quis quos recusandae
-                        reprehenderit sequi, sit tempore tenetur veniam voluptas?</p></div>
-            </div>
-            <a href="article.php" class="index-article__link">Читать далее...</a></div>
-    </div>
-</article>
-<ul class="page _container">
-    <li class="page__item"><a href="#" class="page__link">1</a>,</li>
-    <li class="page__item"><a href="#" class="page__link">2</a></li>
-</ul>
+ARTICLE;
+    echo $item;
+}
+?>
+
+<?php
+if ($num_pages != 1) {
+    echo "<ul class='page _container'>";
+    for ($page = 1; $page <= $num_pages; $page++) {
+        echo "<li class='page__item'><a href='index.php?page={$page}' class='page__link'>{$page}</a></li>";
+    }
+    echo "</ul>";
+}
+?>
 
 <?php
 include 'layouts/footer.php';
