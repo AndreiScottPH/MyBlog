@@ -69,7 +69,7 @@ if ($_SESSION['admin']) {
             $filename = trim($_FILES['file_image']['name']);
             $file_size = $_FILES['file_image']['size'];
             $file_info = getimagesize($_FILES['file_image']['tmp_name']);
-            $file_type = $file_size['mime'];
+            $file_type = $file_info['mime'];
             $file_data = file_get_contents($_FILES['file_image']['tmp_name']);
             ///загрузка в базу данных
             $img_query = sprintf("INSERT INTO images (filename, file_size, image_data, mime_type) VALUE ('%s', %d, '%s', '%s')",
@@ -83,7 +83,7 @@ if ($_SESSION['admin']) {
         text:
         $heading = trim($_POST['heading']);
         $content = trim($_POST['content']);
-        $data_query = sprintf("INSERT INTO articles (heading, content, art_image_id) VALUE ('%s', '%s', '%s')",
+        $data_query = sprintf("INSERT INTO articles (heading, content, art_image_id) VALUE ('%s', '%s', %d)",
             $mysqli->real_escape_string($heading), $mysqli->real_escape_string($content), $mysqli->real_escape_string($art_image_id));
         $mysqli->query($data_query);
         $message = "Статья создана";

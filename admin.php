@@ -1,6 +1,13 @@
 <?php
+require_once 'scripts/database_connection.php';
+require_once 'scripts/authorize.php';
+require_once 'scripts/authentication.php';
 require_once 'layouts/header.php';
 session_start();
+
+$articles_query=sprintf("SELECT article_id, date, heading FROM articles");
+$articles=$mysqli->query($articles_query);
+$count=$articles->num_rows;
 ?>
 
 <!doctype html>
@@ -14,6 +21,7 @@ session_start();
     <link href="css/main.css" rel="stylesheet">
 </head>
 <body class="admin-page">
+
 <?php
 header_view();
 ?>
@@ -31,24 +39,15 @@ header_view();
         </tr>
         </thead>
         <tbody class="table-admin__body">
-        <tr>
-            <td>1</td>
-            <td>24 июля 2020</td>
-            <td><a href="article.php" class="table-admin__article-heading">The vannishing of Ethan Carter</a></td>
-            <td><a href="#" class="table-admin__remove">удалить</a></td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>24 июля 2020</td>
-            <td><a href="article.php" class="table-admin__article-heading">The vannishing of Ethan Carter</a></td>
-            <td><a href="#" class="table-admin__remove">удалить</a></td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>24 июля 2020</td>
-            <td><a href="article.php" class="table-admin__article-heading">The vannishing of Ethan Carter</a></td>
-            <td><a href="#" class="table-admin__remove">удалить</a></td>
-        </tr>
+        <?php
+        $number=1;
+        while ($article = $articles->fetch_array()) {
+            $table_row = sprintf("<tr><td>%d</td><td>%s</td><td><a href='article.php?id=%s' class='table-admin__article-heading'>%s</a></td>" .
+            "<td><a href='#' class='table-admin__remove'>удалить</a></td></tr>",
+                $number++, $article['date'], $article['article_id'], $article['heading']);
+            echo $table_row;
+        }
+        ?>
         </tbody>
     </table>
 </div>
@@ -56,9 +55,8 @@ header_view();
     <li class="page__item"><a href="#" class="page__link">1</a>,</li>
     <li class="page__item"><a href="#" class="page__link">2</a></li>
 </ul>
-<footer class="footer">
-    <div class="footer__content">Copiright 2020 Blog. All rights reserved.</div>
-</footer>
-<script src="main.js"></script>
+<?php
+include 'layouts/footer.php';
+?>
 </body>
 </html>
