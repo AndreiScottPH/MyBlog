@@ -1,22 +1,13 @@
 <?php
 require_once 'scripts/database_connection.php';
 require_once 'scripts/authentication.php';
+require_once 'scripts/per_page.php';
 require_once 'layouts/header.php';
+
 session_start();
 if ($_SESSION['admin']) {
-    $num_articles = $mysqli->query("SELECT COUNT(*) FROM articles");
-    $num_articles = $num_articles->fetch_row();
-    $num_articles = $num_articles[0];
-
-    $per_page = 10;
-    $num_pages = ceil($num_articles / $per_page);
-
-    if (isset($_GET['page']) && $_GET['page'] > 0) {
-        $num_page = ($_GET['page'] - 1) * $per_page;
-    }
-
-    $article_query = sprintf("SELECT article_id, date, heading FROM articles ORDER BY date DESC LIMIT %d, %d", $num_page, $per_page);
-    $article = $mysqli->query($article_query);
+    $per_page=2;
+    per_page($per_page, 'admin');
     ?>
 
     <!doctype html>
@@ -56,7 +47,11 @@ if ($_SESSION['admin']) {
             </thead>
             <tbody class="table-admin__body">
             <?php
-            $number = 1;
+            if ($_GET['page'] == 1) {
+                $number = $_GET['page'];
+            } else {
+                $number = ($_GET['page'] - 1) * $per_page + 1;
+            }
             while ($items = $article->fetch_array()) {
                 $table_row = sprintf("<tr><td>%d</td><td>%s</td>" .
                     "<td><a href='article.php?article_id=%s' class='table-admin__article-heading'>%s</a></td>" .
@@ -70,12 +65,9 @@ if ($_SESSION['admin']) {
     </div>
 
     <?php
-    if ($num_pages != 1) {
+    if ($amount_pages != 1) {
         echo "<ul class='page _container'>";
-        for ($page = 1; $page <= $num_pages; $page++) {
-            if (!isset($_GET['page'])) {
-                $_GET['page'] = $page;
-            }
+        for ($page = 1; $page <= $amount_pages; $page++) {
             if ($_GET['page'] != $page) {
                 $class = "<a href='admin.php?page={$page}' class='page__link'>{$page}</a>";
             } else {

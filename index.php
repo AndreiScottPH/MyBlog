@@ -1,23 +1,12 @@
 <?php
+require_once 'scripts/database_connection.php';
 require_once 'scripts/authorize.php';
 require_once 'scripts/authentication.php';
+require_once 'scripts/per_page.php';
 require_once 'layouts/header.php';
 
-$num_articles = $mysqli->query("SELECT COUNT(*) FROM articles");
-$num_articles = $num_articles->fetch_row();
-$num_articles = $num_articles[0];
-
-$per_page = 3;
-$num_pages = ceil($num_articles / $per_page);
-
-if (isset($_GET['page']) && $_GET['page'] > 0) {
-    $num_page = ($_GET['page'] - 1) * $per_page;
-}
-
-
-$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles ORDER BY date DESC LIMIT %d, %d",
-    $num_page, $per_page);
-$article = $mysqli->query($article_query);
+$per_page=3;
+per_page($per_page, 'index');
 ?>
 
 <!doctype html>
@@ -70,12 +59,9 @@ ARTICLE;
 ?>
 
 <?php
-if ($num_pages != 1) {
+if ($amount_pages != 1) {
     echo "<ul class='page _container'>";
-    for ($page = 1; $page <= $num_pages; $page++) {
-        if (!isset($_GET['page'])) {
-            $_GET['page'] = $page;
-        }
+    for ($page = 1; $page <= $amount_pages; $page++) {
         if ($_GET['page'] == $page) {
             $class = $page;
         } else {
