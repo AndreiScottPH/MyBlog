@@ -59,18 +59,7 @@ ARTICLE;
 ?>
 
 <?php
-if ($amount_pages != 1) {
-    echo "<ul class='page _container'>";
-    for ($page = 1; $page <= $amount_pages; $page++) {
-        if ($_GET['page'] == $page) {
-            $class = $page;
-        } else {
-            $class = "<a href='index.php?page={$page}' class='page__link'>{$page}</a>";
-        }
-        echo "<li class='page__item user-header__message'>{$class}</li>";
-    }
-    echo "</ul>";
-}
+per_page_link('index');
 ?>
 
 <?php

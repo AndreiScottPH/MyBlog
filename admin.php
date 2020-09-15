@@ -6,7 +6,7 @@ require_once 'layouts/header.php';
 
 session_start();
 if ($_SESSION['admin']) {
-    $per_page=2;
+    $per_page = 10;
     per_page($per_page, 'admin');
     ?>
 
@@ -65,18 +65,7 @@ if ($_SESSION['admin']) {
     </div>
 
     <?php
-    if ($amount_pages != 1) {
-        echo "<ul class='page _container'>";
-        for ($page = 1; $page <= $amount_pages; $page++) {
-            if ($_GET['page'] != $page) {
-                $class = "<a href='admin.php?page={$page}' class='page__link'>{$page}</a>";
-            } else {
-                $class = $page;
-            }
-            echo "<li class='page__item user-header__message'>{$class}</li>";
-        }
-        echo "</ul>";
-    }
+    per_page_link('admin');
     ?>
 
     <?php

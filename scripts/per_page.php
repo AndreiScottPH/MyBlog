@@ -29,3 +29,19 @@ function per_page($per_page, $query_number=NULL)
         $article = $mysqli->query($query);
     }
 }
+
+function per_page_link($link){
+    global $amount_pages;
+    if ($amount_pages != 1) {
+        echo "<ul class='page _container'>";
+        for ($page = 1; $page <= $amount_pages; $page++) {
+            if ($_GET['page'] == $page) {
+                $class = $page;
+            } else {
+                $class = "<a href='{$link}.php?page={$page}' class='page__link'>{$page}</a>";
+            }
+            echo "<li class='page__item user-header__message'>{$class}</li>";
+        }
+        echo "</ul>";
+    }
+}
