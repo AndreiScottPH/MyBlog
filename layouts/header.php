@@ -1,5 +1,5 @@
 <?php
-function header_view($header_error = NUll)
+function header_view($header_error = NUll, $query=NULL)
 {
     session_start();
     if ($_SESSION['admin']) {
@@ -15,6 +15,7 @@ ADM;
         $nav = 'disable';
         $user = '';
     }
+
     echo <<<HEADER
 <header class="header">
     <div class="header__content _container">
@@ -31,7 +32,7 @@ ADM;
         <div class="header__user {$user}">
             <div class="user-header">
                 <div class="user-header__message">{$header_error}</div>
-                <form action="{$_SERVER['PHP_SELF']}" method="post" class="user-header__form form-header">
+                <form action="{$_SERVER['PHP_SELF']}?{$query}" method="post" class="user-header__form form-header">
                     <label for="username"></label>
                     <input class="form-header__input" id="username" name="username" placeholder="Логин" value="{$_POST['username']}">
                     <label for="password"></label> 

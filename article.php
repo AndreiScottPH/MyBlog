@@ -4,11 +4,9 @@ require_once 'scripts/authorize.php';
 require_once 'scripts/authentication.php';
 require_once 'layouts/header.php';
 
-session_start();
+$article_id=$_GET['article_id'];
 
-setcookie('article_id', $_GET['article_id']);
-
-$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles WHERE article_id=%d", $_COOKIE['article_id']);
+$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles WHERE article_id=%d", $article_id);
 $article = $mysqli->query($article_query);
 $article = $article->fetch_array();
 
@@ -32,7 +30,7 @@ if (isset($article['art_image_id']) && $article['art_image_id'] != 0) {
 </head>
 <body class="article-page">
 <?php
-header_view($header_error);
+header_view($header_error, "article_id={$article_id}");
 ?>
 <article class="article">
     <div class="_container">
