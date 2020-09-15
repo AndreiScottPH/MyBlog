@@ -8,14 +8,14 @@ if ($_SESSION['admin']) {
     $num_articles = $num_articles->fetch_row();
     $num_articles = $num_articles[0];
 
-    $per_page = 2;
+    $per_page = 10;
     $num_pages = ceil($num_articles / $per_page);
 
     if (isset($_GET['page']) && $_GET['page'] > 0) {
         $num_page = ($_GET['page'] - 1) * $per_page;
     }
 
-    $article_query = sprintf("SELECT article_id, date, heading FROM articles LIMIT %d, %d", $num_page, $per_page);
+    $article_query = sprintf("SELECT article_id, date, heading FROM articles ORDER BY date DESC LIMIT %d, %d", $num_page, $per_page);
     $article = $mysqli->query($article_query);
     ?>
 

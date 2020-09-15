@@ -14,7 +14,9 @@ if (isset($_GET['page']) && $_GET['page'] > 0) {
     $num_page = ($_GET['page'] - 1) * $per_page;
 }
 
-$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles LIMIT %d, %d", $num_page, $per_page);
+
+$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles ORDER BY date DESC LIMIT %d, %d",
+    $num_page, $per_page);
 $article = $mysqli->query($article_query);
 ?>
 

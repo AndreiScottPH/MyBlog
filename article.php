@@ -1,11 +1,14 @@
 <?php
+require_once 'scripts/database_connection.php';
 require_once 'scripts/authorize.php';
 require_once 'scripts/authentication.php';
 require_once 'layouts/header.php';
 
-$article_id = $_REQUEST['article_id'];
+session_start();
 
-$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles WHERE article_id=%s", $article_id);
+setcookie('article_id', $_GET['article_id']);
+
+$article_query = sprintf("SELECT article_id, date, heading, content, art_image_id FROM articles WHERE article_id=%d", $_COOKIE['article_id']);
 $article = $mysqli->query($article_query);
 $article = $article->fetch_array();
 

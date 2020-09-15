@@ -87,7 +87,7 @@ if ($_SESSION['admin']) {
             $mysqli->real_escape_string($heading), $mysqli->real_escape_string($content), $mysqli->real_escape_string($art_image_id));
         $mysqli->query($data_query);
         $message = "Статья создана";
-        header("Location: admin.php?message={$message}");
+        header("Location: index.php");
         exit();
     }
 } else {
